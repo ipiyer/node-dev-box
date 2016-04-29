@@ -3,6 +3,32 @@
   become: yes
   become_method: sudo
   roles:
-    - ANXS.build-essential
-    - apt
-    - {role: mrlesmithjr.nodejs, nodejs_version: '6.x'}
+    # - ANXS.build-essential
+    # - apt
+    # - {role: mrlesmithjr.nodejs, nodejs_version: '6.x'}
+    - role: ANXS.postgresql
+      postgresql_version: 9.4
+      postgresql_encoding: 'UTF-8'
+      postgresql_locale: 'en_US.UTF-8'
+      postgresql_admin_user: "postgres"
+      postgresql_default_auth_method: "trust"
+      postgresql_cluster_name: "main"
+      postgresql_cluster_reset: false
+      postgresql_databases:
+        - name: foobar
+          owner: baz          # optional; specify the owner of the database
+          hstore: no         # flag to install the hstore extension on this database (yes/no)
+          uuid_ossp: no      # flag to install the uuid-ossp extension on this database (yes/no)
+          citext: no
+
+      postgresql_users:
+        - name: baz
+          pass: pass
+          encrypted: no       # denotes if the password is already encrypted.
+
+      # List of user privileges to be applied (optional)
+      postgresql_user_privileges:
+        - name: baz                   # user name
+          db: foobar                  # database
+          priv: "ALL"                 # privilege string format: example: INSERT,UPDATE/table:SELECT/anothertable:ALL
+          role_attr_flags: "CREATEDB" # role attribute flags
