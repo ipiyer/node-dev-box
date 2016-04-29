@@ -1,0 +1,7 @@
+---
+- name: Install global npm libssl-dev
+  npm: name={{ item }} global=yes
+  with_items:
+    - gulp
+    - bower
+    - knex
