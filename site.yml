@@ -1,0 +1,8 @@
+- name: Dev box setup for NodeJS
+  hosts: vm
+  become: yes
+  become_method: sudo
+  roles:
+    - ANXS.build-essential
+    - apt
+    - {role: mrlesmithjr.nodejs, nodejs_version: '6.x'}
